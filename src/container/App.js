@@ -12,7 +12,7 @@ const App = (props) => {
       <Routes>
         <Route path="/users" element={<Users />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/" element={<SignUp />} />
         <Route path="/user-details/:id?" element={<UserDetails />} />
         <Route path="*" element={<NoPageFound />} />
       </Routes>
