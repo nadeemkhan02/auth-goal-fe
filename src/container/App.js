@@ -1,21 +1,33 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Users from "../page/Users";
-import NoPageFound from "../page/NoPageFound";
-import UserDetails from "../page/UserDetails";
+import NoPageFound from "../page/Home";
 import SignIn from "../page/SignIn";
 import SignUp from "../page/SignUp";
+import MovieDetails from "../page/MovieDetails";
+import Movies from "../page/Movies";
+import Home from "../page/Home";
 
 const App = (props) => {
+  const isLogedIn = localStorage.getItem("accesToke");
   return (
     <div>
-      <Routes>
-        <Route path="/users" element={<Users />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/" element={<SignUp />} />
-        <Route path="/user-details/:id?" element={<UserDetails />} />
-        <Route path="*" element={<NoPageFound />} />
-      </Routes>
+      {isLogedIn ? (
+        <Routes>
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/user-details/:id?" element={<MovieDetails />} />
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<Navigate replace to="/" />} />
+        </Routes>
+      ) : (
+        <Routes>
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/user-details/:id?" element={<MovieDetails />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<Navigate replace to="/" />} />
+        </Routes>
+      )}
     </div>
   );
 };

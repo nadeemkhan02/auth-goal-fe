@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserListApiUrl } from "../../utils/urls";
+import { getMovieListApiUrl } from "../../utils/urls";
 
-const UserDetails = (props) => {
+const MovieDetails = (props) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
@@ -13,7 +13,7 @@ const UserDetails = (props) => {
     if (id) {
       setIsUserDetailsLoading(true);
       axios
-        .get(`${getUserListApiUrl}/${id}`)
+        .get(`${getMovieListApiUrl}/${id}`)
         .then((res) => {
           console.log(res, "success response");
           setUserData(res.data);
@@ -39,7 +39,7 @@ const UserDetails = (props) => {
         >
           &#8629;
         </span>
-        This is user details page
+        This is movie details page
       </h1>
       {isUserDetailsLoading ? (
         <p>loading</p>
@@ -56,4 +56,4 @@ const UserDetails = (props) => {
   );
 };
 
-export default UserDetails;
+export default MovieDetails;

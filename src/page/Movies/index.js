@@ -1,24 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { deleteUserAPIUrl, getUserListApiUrl } from "../../utils/urls";
+import { deleteMovieAPIUrl, getMovieListApiUrl } from "../../utils/urls";
 import { useNavigate } from "react-router-dom";
 
-const Users = (props) => {
-  const [userListData, setUserListData] = useState([]);
+const Movies = (props) => {
+  const [movieListData, setMovieListData] = useState([]);
   const [isListDataLoading, setIsListDataLoading] = useState(false);
   const [isDeleteListDataLoading, setIsDeleteListDataLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getUserData();
+    getMovieData();
   }, []);
 
-  const getUserData = () => {
+  const getMovieData = () => {
     setIsListDataLoading(true);
     axios
-      .get(getUserListApiUrl)
+      .get(getMovieListApiUrl)
       .then((res) => {
-        setUserListData(res.data);
+        setMovieListData(res.data);
         setIsListDataLoading(false);
       })
       .catch((err) => {
@@ -38,10 +38,10 @@ const Users = (props) => {
   const handleDelete = (id) => {
     setIsDeleteListDataLoading(true);
     axios
-      .delete(`${deleteUserAPIUrl}/${id}`)
+      .delete(`${deleteMovieAPIUrl}/${id}`)
       .then((res) => {
         setIsDeleteListDataLoading(false);
-        getUserData();
+        getMovieData();
       })
       .catch((err) => {
         setIsDeleteListDataLoading(false);
@@ -55,35 +55,41 @@ const Users = (props) => {
   return (
     <div>
       <div className="headingContainer">
-        <h2>User List</h2>
-        <button onClick={getUserData}>Refresh Data</button>
+        <h2>Movies List</h2>
+        <button onClick={getMovieData}>Refresh Data</button>
       </div>
       {isListDataLoading ? (
         <p className="loading-list">Loading...</p>
-      ) : userListData?.length > 0 ? (
+      ) : movieListData?.length > 0 ? (
         <div className="tableWrap">
           <table className="userTable">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>City</th>
-                <th>Actions</th>
+                <th>Movie</th>
+                <th>Imbd Rating</th>
+                <th>Genre</th>
+                <th>Director</th>
+                <th>Releas Year</th>
+                <th>Sequel</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody className="user-list-table-body">
-              {userListData.map((item, index) => (
+              {movieListData.map((item, index) => (
                 <tr key={index}>
                   <td
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      navigate(`/user-details/${item?.id}`);
+                      navigate(`/movie-details/${item?.id}`);
                     }}
                   >
-                    {item?.name}
+                    {item?.movie_name}
                   </td>
-                  <td>{item?.age}</td>
-                  <td>{item?.city}</td>
+                  <td>{item?.imdb_rating}</td>
+                  <td>{item?.genre}</td>
+                  <td>{item?.director}</td>
+                  <td>{item?.release_year}</td>
+                  <td>{item?.sequel ? "Yes" : "No"}</td>
                   <td className="actions">
                     <button onClick={handleEdit}>Edit</button>
                     <button
@@ -108,4 +114,4 @@ const Users = (props) => {
   );
 };
 
-export default Users;
+export default Movies;
